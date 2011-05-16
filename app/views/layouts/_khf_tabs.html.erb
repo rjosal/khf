@@ -1,0 +1,17 @@
+<script type="text/javascript" src="/javascripts/tabber-minimized.js"></script>
+<link rel="stylesheet" href="/stylesheets/tabber.css" TYPE="text/css" MEDIA="screen">
+<script type="text/javascript" defer="defer">
+  var tabberOptions = {
+    'manualStartup':true,
+    'onClick':function(args){
+      $('flash') && $('flash').replace('');
+      var tabber = args.tabber; /* Tabber object */
+      var tabIndex = args.index;
+      new Ajax.Request('/track', {
+        method: 'post',
+        parameters: {tabClick: tabber.tabs[tabIndex].headingText}
+      });
+    }
+  };
+  tabberAutomatic(tabberOptions);
+</script>

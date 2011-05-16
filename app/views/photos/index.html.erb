@@ -1,0 +1,65 @@
+    <%# we don't want js tabs; we want real links, so we manually build them %>
+    <ul class="tabbernav">
+      <li><%= link_to 'Videos', '/videos' %></li>
+      <li class='tabberactive'><%= link_to 'Photos', '/photos' %></li>
+    </ul>
+
+    <div id="main" class="photos">
+      <div id="column_left">
+        <h5>Categories</h5>
+        <ul id="photos_categories">
+          <%= "<li><a href=\"#{photos_path}\">List</a></li>" if @user and @user.role != 'normal' %>
+          <% Category.find(:all, :order => :name, :conditions => {:status => 'active'}).each do |cat| %>
+            <li>
+              <a href="<%= "#{photos_path}/#{cat.name}" %>"><%= cat.name.gsub(/_/,' ') %></a>
+              <% if @user and @user.role != 'normal' %>
+                <%= link_to 'Edit', edit_category_path(cat) %>
+                <%= link_to 'Destroy', cat, :confirm => 'Are you sure?  This will also delete all photos in this category.', :method => :delete %>
+              <% end %>
+            </li>
+          <% end %>
+          <% if @user and @user.role != 'normal' %>
+            <li>-------------</li>
+            <li><%= link_to 'New Category', new_category_path %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div id="column_right"<%= 'class="list"' unless params[:category] %>>
+        <% if params[:category] %>
+          <div id="photo_gallery" align="center">
+            The photo gallery requires Adobe Flash.
+            <%= link_to 'Get Macromedia Flash.', "http://www.macromedia.com/go/getflashplayer/" %>
+            If you have Flash installed, <%= link_to 'click to view gallery', "#{photos_path}/#{params[:category]}?detectflash=false" %>
+          </div>
+          <% javascript_tag do %>
+            var fo = new SWFObject("/images/viewer.swf", "viewer", "585", "100%", "7", "#552222");      
+            fo.addParam("wmode", "transparent");
+            fo.addParam("FlashVars", "xmlDataPath=<%= "#{photos_path}/gallery/#{params[:category]}" %>" +
+                                     "&preloaderColor=0x000000" +
+                                     "&textColor=0x552222");
+            fo.write("photo_gallery");
+          <% end %>
+        <% else %>
+          <% if @user and @user.role != 'normal' %>
+            <br><%= link_to 'New photo', new_photo_path %>
+            <table id="photos">
+            <tr><th>Category</th><th>File</th><th>Caption</th><th>Delete?</th></tr>
+            <% @photos.each do |photo| %>
+              <tr>
+              <td><%= photo.category.name %></td>
+              <td><%= link_to File.basename(photo.filename), photo.filename.sub( Rails.root.join("public/"), "" ) %></td>
+              <td><%= photo.caption %></td>
+              <td><%= link_to 'Destroy', photo, :confirm => 'Are you sure?', :method => :delete %></td>
+              </tr>
+            <% end %>
+            </table>
+            <br>
+            <%= link_to 'New photo', new_photo_path %>
+          <% end %>
+        <% end %>
+      </div>
+      <div id="column_center_fade"><img src="/images/bottomAlphaFade.png"></div>
+   </div>
+   <div id="footer">
+      <h1><a href="http://www.kitsaphauntedfairgrounds.com" target="_parent" class="center">www.kitsaphauntedfairgrounds.com</a></h1>
+   </div>

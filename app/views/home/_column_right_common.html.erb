@@ -1,0 +1,23 @@
+<br>
+<div id="loginout">
+   <p>
+   <% if @user %>
+   <%= link_to image_tag("/images/LOGOUT.png"), logout_path %>
+   <% else %>
+   <%= link_to image_tag("/images/LOGIN.png"), login_path %> <br>
+   <%= link_to image_tag("/images/REGISTER.png"), register_path %>
+   <% end %>
+   </p>
+</div>
+<br>
+<%= yield :column_right_img %>
+<p style="text-align:justify;">Welcome to the Kitsap Haunted Fairgrounds Website! Kitsap Haunted Fairgrounds attracts victims from 
+Bremerton, Silverdale, Belfair, Port Orchard, Poulsbo, Seattle and beyond for the annual scare put on in October. 
+If you haven't made your way out here before, buckle up - you're in for a ride through your darkest nightmares.</p>
+<br>
+<%= link_to(image_tag("/images/social-networking/facebook.png", :alt => "Kitsap Haunted Fairgrounds on Facebook", :border => 0),
+    "http://www.facebook.com/pages/Bremerton-WA/Kitsap-Haunted-Fairgrounds-Fan-Page/310271587558", :target => "_blank") %>
+<%= link_to(image_tag("/images/social-networking/myspace.png", :alt => "MySpace Haunt Page", :border => 0),
+    "http://www.myspace.com/kitsaphauntedfairgrounds", :target => "_blank") %>
+<%= link_to(image_tag("/images/social-networking/youtube.png", :alt => "YouTube Haunt Videos", :border => 0),
+    "http://www.youtube.com/user/KitsapHaunt", :target => "_blank") %>

@@ -1,0 +1,14 @@
+<html><body>
+  <p><%= @user.name %>,</p>
+
+  <p>There's been some action on the KHF site!</p>
+  <p>
+    <%= @headline.title %><br>
+    <%= @headline.post %>
+  </p>
+  <a href="http://www.kitsaphauntedfairgrounds.com">Leave a comment on this HEADline on the site!</a>
+  <p>
+    If you would not like to receive any email from kitsaphauntedfairgrounds.com,
+    click <a href="http://www.kitsaphauntedfairgrounds.com/email_opt_out/<%= @user.id %>">here</a> to opt-out.
+  </p>
+</body></html>

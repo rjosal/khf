@@ -1,0 +1,30 @@
+    <%# we don't want js tabs; we want real links, so we manually build them %>
+    <ul class="tabbernav">
+      <li class='tabberactive'><%= link_to 'Videos', '/videos' %></li>
+      <li><%= link_to 'Photos', '/photos' %></li>
+    </ul>
+
+    <div id="main" class="videos">
+      <div id="column_center">
+        <% @videos.each_with_index do |video, index| %>
+          <div class="video<%= index % 2 == 1 ? '_right' : '_left'  %>">
+            <h3><%= video.title %></h3>
+            <object width="350" height="292">
+              <param name="movie" value="<%= video.url %>"></param>
+              <param name="allowFullScreen" value="true"></param>
+              <param name="allowScriptAccess" value="always"></param>
+              <embed src="<%= video.url %>"
+                type="application/x-shockwave-flash"
+                allowscriptaccess="always"
+                width="350" height="292" 
+                allowfullscreen="true"></embed>
+            </object>
+          </div>
+        <% end %>
+        <%= will_paginate @videos %>
+      </div>
+      <div id="column_center_fade"><img src="/images/bottomAlphaFade.png"></div>
+   </div>
+   <div id="footer">
+      <h1><a href="http://www.kitsaphauntedfairgrounds.com" target="_parent" class="center">www.kitsaphauntedfairgrounds.com</a></h1>
+   </div>

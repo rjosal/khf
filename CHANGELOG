@@ -1,0 +1,43 @@
+
+*) rel nofollow on buy links
+*) move buy link for tickets into h4
+*) add purchase link to open dates
+*) switch to jpg banner (100k smaller)
+*) track link clicks
+*) add titles to pages missing them
+*) add purchase link to ticket
+*) edit ticket function
+*) add br div br to bottom of tabs for ie7 compat
+*) implement emailing of new headline notifications
+*) add email framework
+*) add story
+*) make scythe bloody and dirty
+*) move loginout to basic layout on all pages with new scythe
+*) default tab is headlines unless otherwise specified
+*) track useragent in all events
+*) add tabClick event tracking
+*) order photo categories by name in view
+*) build photos.category into its own model
+*) fix flashless links
+*) add event logging
+*) add google analytics
+*) add knife and ticket zombies
+*) add floor zombie
+*) directions page blood splat
+*) switch whiteish bgd to blood drips
+*) login/logout/register in blood
+*) fix facebook link and make external links open in new tabs
+*) height:auto on photos list
+*) give new photo page a bg
+*) add migrations for missing tables
+*) map zoom -1, video div widths for long titles
+*) add marker to directions map
+*) paginate videos
+*) add videos page
+*) add links page
+*) add photos page
+*) add abouts page
+*) add contacts page
+*) commit lots of files I seem to have forgotten to commit
+*) implement most of first (main) tab
+*) Create new project khf

@@ -1,0 +1,6 @@
+# Logfile created on Sun Aug 29 12:52:01 -0700 2010  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateHeadlines (20100610041255)
+  [4;36;1mSQL (0.0ms)[0m   [0;1mMysql::Error: Table 'headlines' already exists: CREATE TABLE `headlines` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `status` varchar(255) DEFAULT 'active', `title` varchar(255), `post` varchar(40000), `created_by` int(11), `updated_by` int(11), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m

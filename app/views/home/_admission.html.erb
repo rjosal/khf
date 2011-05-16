@@ -1,0 +1,90 @@
+<div id="container" class="tabbertab<%= ' tabbertabdefault' if params[:section] and params[:section] == 'admission'%>">
+   <h2>Admission</h2>
+   <div id="main">
+      <div id="column_left">
+		     <% if @user and @user.role != 'normal' %>
+           <br>
+           <%= link_to_function('Create New Ticket', :id => "ticket_form_toggle") do |page|
+                  page.visual_effect :toggle_slide, 'new_ticket', :duration => 0.5
+                  page << "$('ticket_form_toggle').innerHTML = 
+                     ($('ticket_form_toggle').innerHTML == 'Create New Ticket' ? 'Hide Create Ticket Form' : 'Create New Ticket');"
+              end %>
+           <% form_for(Ticket.new, :html => {:style => 'display:none;'}) do |f| %>
+             <%= f.error_messages %>
+             <table>
+               <tr>
+                 <td><%= f.label :name %></td>
+                 <td><%= f.text_field :name %></td>
+               </tr>
+               <tr>
+                 <td><%= f.label :price %></td>
+                 <td><%= f.text_field :price %></td>
+               </tr>
+               <tr>
+                 <td><%= f.label :description %></td>
+                 <td><%= f.text_field :description %></td>
+               </tr>
+               <tr>
+                 <td><%= f.label :purchase_link %></td>
+                 <td><%= f.text_field :purchase_link %></td>
+               </tr>
+               <tr>
+                 <td></td><td><%= f.submit 'Create' %></td>
+               </tr>
+             </table>
+           <% end %>
+         <% end %>
+         <% @tickets.each do |ticket| %>
+            <h4>
+              <span class="newstitle"><%= ticket.name %>:</span>
+              <span class="newsdate">$<%= '%.2f' % ticket.price %>
+              <%= link_to('Buy Now!', ticket.purchase_link, :target => '_blank',  :onclick => "return trackLink(this);", :rel => 'nofollow') unless ticket.purchase_link.blank? %></span>
+            </h4>
+            <p><%= ticket.description %>
+            <% if @user and @user.role != 'normal' %> 
+              <br>
+			        <%= link_to 'Delete', ticket, :confirm => 'Are you sure?', :method => :delete %>
+              <%= link_to_function('Edit', :id => "ticket_edit_form_toggle") do |page|
+                     page.visual_effect :toggle_slide, "edit_ticket_#{ticket.id}", :duration => 0.5
+                     page << "$('ticket_edit_form_toggle').innerHTML = 
+                        ($('ticket_edit_form_toggle').innerHTML == 'Edit' ? 'Hide Edit Form' : 'Edit');"
+                 end %>
+              <% form_for(ticket, :html => {:style => 'display:none;'}) do |f| %>
+                <%= f.error_messages %>
+                <table>
+                  <tr>
+                    <td><%= f.label :name %></td>
+                    <td><%= f.text_field :name %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.label :price %></td>
+                    <td><%= f.text_field :price %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.label :description %></td>
+                    <td><%= f.text_field :description %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.label :purchase_link %></td>
+                    <td><%= f.text_field :purchase_link %></td>
+                  </tr>
+                  <tr>
+                    <td></td><td><%= f.submit 'Apply Changes' %></td>
+                  </tr>
+                </table>
+              <% end %>
+            <% end %>
+            </p>
+         <% end %>
+         <br>
+         <p>$1 off normal ticket price with canned food donation to benefit local food banks. </p>
+      </div>
+      <div id="column_right">
+        <%= image_tag('/images/ticket-zombie.png', :alt => 'Ticket Zombie') %>
+      </div><br><div style="clear:both"></div><br>
+      <div id="column_center_fade"><img src="/images/bottomAlphaFade.png"></div>
+   </div>
+   <div id="footer">
+      <h1><a href="http://www.kitsaphauntedfairgrounds.com" target="_parent" class="center">www.kitsaphauntedfairgrounds.com</a></h1>
+   </div>
+</div>

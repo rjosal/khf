@@ -1,0 +1,15 @@
+<% @contacts.each do |contact| %>
+  <h3><%= h contact.purpose %></h3>
+  <p>
+    <%= h contact.description %><br>
+    <%= mail_to contact.email, "Email #{h contact.name}", :encode => :javascript %>
+  </p><br>
+  <% if @user and @user.role != 'normal' %>
+    <%= link_to 'Edit', edit_contact_path(contact) %>
+    <%= link_to 'Destroy', contact, :confirm => 'Are you sure?', :method => :delete %>
+  <% end %>
+<% end %>
+<% if @user and @user.role != 'normal' %>
+  <br><br>
+  <%= link_to 'New contact', new_contact_path %>
+<% end %>

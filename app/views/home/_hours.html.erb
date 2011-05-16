@@ -1,0 +1,114 @@
+<% current_month = nil %>
+<div id="container" class="tabbertab<%= ' tabbertabdefault' if params[:section] and params[:section] == 'hours'%>">
+  <h2>Hours</h2>
+  <div id="main">
+    <div id="column_left">
+       <% if @user and @user.role != 'normal' %>
+         <br>
+         <%= link_to_function('Create New Open Date', :id => "open_date_form_toggle") do |page|
+                page.visual_effect :toggle_slide, 'new_open_date', :duration => 0.5
+                page << "$('open_date_form_toggle').innerHTML = 
+                   ($('open_date_form_toggle').innerHTML == 'Create New Open Date' ? 'Hide Create Open Date Form' : 'Create New Open Date');"
+            end %>
+         <% form_for(OpenDate.new, :html => {:style => 'display:none;'}) do |f| %>
+           <table>
+             <tr>
+               <td><%= f.label :date_open %></td>
+               <td><%= f.text_field :date_open_month, :size => 2, :maxlength => 2,
+                         :style => "color:gray", :value => 'mm',
+                         :onfocus => "if(this.style.color=='gray'){this.clear();this.style.color='black';}" %> /
+                   <%= f.text_field :date_open_day, :size => 2, :maxlength => 2,
+                         :style => "color:gray", :value => 'dd',
+                         :onfocus => "if(this.style.color=='gray'){this.clear();this.style.color='black';}" %> /
+                   <%= f.text_field :date_open_year, :size => 4, :maxlength => 4,
+                         :style => "color:gray", :value => 'yyyy',
+                         :onfocus => "if(this.style.color=='gray'){this.clear();this.style.color='black';}" %></td>
+             </tr>
+             <tr>
+               <td><%= f.label :start_time %></td>
+               <td><%= f.text_field :start_time_hour, :size => 2, :maxlength => 2,
+                         :style => "color:gray", :value => 'hh',
+                         :onfocus => "if(this.style.color=='gray'){this.clear();this.style.color='black';}" %> :
+                   <%= f.text_field :start_time_minute, :size => 2, :maxlength => 2,
+                         :style => "color:gray", :value => 'mm',
+                         :onfocus => "if(this.style.color=='gray'){this.clear();this.style.color='black';}" %>
+                   <%= f.select :start_time_meridiem, %w(PM AM) %></td>
+             </tr>
+             <tr>
+               <td><%= f.label :lights_on_end_time %></td>
+               <td><%= f.text_field :lights_on_end_time_hour, :size => 2, :maxlength => 2,
+                         :style => "color:gray", :value => 'hh',
+                         :onfocus => "if(this.style.color=='gray'){this.clear();this.style.color='black';}" %> :
+                   <%= f.text_field :lights_on_end_time_minute, :size => 2, :maxlength => 2,
+                         :style => "color:gray", :value => 'mm',
+                         :onfocus => "if(this.style.color=='gray'){this.clear();this.style.color='black';}" %>
+                   <%= f.select :lights_on_end_time_meridiem, %w(PM AM) %></td>
+             </tr>
+             <tr>
+               <td><%= f.label :end_time %></td>
+               <td><%= f.text_field :end_time_hour, :size => 2, :maxlength => 2,
+                         :style => "color:gray", :value => 'hh',
+                         :onfocus => "if(this.style.color=='gray'){this.clear();this.style.color='black';}" %> :
+                   <%= f.text_field :end_time_minute, :size => 2, :maxlength => 2,
+                         :style => "color:gray", :value => 'mm',
+                         :onfocus => "if(this.style.color=='gray'){this.clear();this.style.color='black';}" %>
+                   <%= f.select :end_time_meridiem, %w(PM AM) %></td>
+             </tr>
+             <tr>
+               <td><%= f.label :purchase_link %></td>
+               <td><%= f.text_field :purchase_link %></td>
+             </tr>
+             <tr>
+               <td></td><td><%= f.submit 'Create' %></td>
+             </tr>
+           </table>
+         <% end %>
+       <% end %>
+      <% @open_dates.each do |open_date| %>
+        <% if open_date.date_open.month != current_month %>
+          <%= '</table>' if open_date != @open_dates[0] %>
+          <h3><%= open_date.date_open.strftime("%B %Y") %></h3>
+          <table class="hours">
+          <tr><th>Day</th><th>Lights On</th><th>FULL SCARE</th></tr>
+          <% current_month = open_date.date_open.month %>
+        <% end %>
+        <tr>
+          <td>
+            <%= open_date.date_open.strftime("%A the ") + open_date.date_open.day.ordinalize.gsub(/st|nd|rd|th/,'<span class="super">\0</span>') %>
+            <%= '(Halloween)' if open_date.date_open.day == 31 && open_date.date_open.month == 10 %>
+            <%= link_to('Buy Now!', open_date.purchase_link, :target => '_blank', :onclick => 'return trackLink(this);', :rel => 'nofollow') unless open_date.purchase_link.blank? %>
+            <% if @user and @user.role != 'normal' %>
+              <br>
+              <%= link_to 'Delete', open_date, :confirm => 'Are you sure?', :method => :delete %> |
+              <%= link_to_function('Edit Purchase Link', :id => "open_date_edit_form_toggle_#{open_date.id}") do |page|
+                     page.visual_effect :toggle_slide, "edit_open_date_#{open_date.id}", :duration => 0.5
+                     page << "$('open_date_edit_form_toggle_#{open_date.id}').innerHTML = 
+                        ($('open_date_edit_form_toggle_#{open_date.id}').innerHTML == 'Edit Purchase Link' ? 'Hide Edit Form' : 'Edit Purchase Link');"
+                 end %>
+              <% form_for(open_date, :html => {:style => 'display:none;'}) do |f| %>
+                <%= f.error_messages %>
+                <%= f.text_field :purchase_link, :size => 20 %><br>
+                <%= f.submit 'Apply Changes' %>
+              <% end %>
+            <% end %>
+          </td>
+          <td class="hours"><%= open_date.start_time.strftime("%I:%M%P-").gsub(/^0|pm/, '') +
+                                open_date.lights_on_end_time.strftime("%I:%M%P").gsub(/^0|pm/, '') %></td>
+          <td class="hours"><%= open_date.lights_on_end_time.strftime("%I:%M%P-").gsub(/^0|pm/, '') +
+                                open_date.end_time.strftime("%I:%M%P").gsub(/^0|pm/, '') %></td>
+        </tr>
+        <%= '</table>' if open_date == @open_dates[-1] %>
+      <% end %>
+      <br>
+      <p>NOTE: As long as you have purchased your ticket by the time the window closes you will get 
+         to go through.</p>
+    </div>
+    <div id="column_right">
+      <%= image_tag('/images/knife-zombie.png', :alt => 'Knife Zombie') %>
+    </div><br><div style="clear:both"></div><br>
+    <div id="column_center_fade"><img src="/images/bottomAlphaFade.png"></div>
+  </div>
+  <div id="footer">
+    <h1><a href="http://www.kitsaphauntedfairgrounds.com" target="_parent" class="center">www.kitsaphauntedfairgrounds.com</a></h1>
+  </div>
+</div>

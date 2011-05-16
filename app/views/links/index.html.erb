@@ -1,0 +1,15 @@
+<% @links.each do |link| %>
+  <%= link_to image_tag("/images/links/#{File.basename(link.filename)}"), link.href, :target => "_blank", :onclick => 'return trackLink(this);' %>
+  <br>
+  <% if @user and @user.role != 'normal' %>
+    <%= link_to 'Edit', edit_link_path(link) %>
+    <%= link_to 'Destroy', link, :confirm => 'Are you sure?', :method => :delete %>
+    <br>
+  <% end %>
+<% end %>
+</table>
+
+<br>
+<% if @user and @user.role != 'normal' %>
+  <%= link_to 'New link', new_link_path %>
+<% end %>

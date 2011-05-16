@@ -1,0 +1,13 @@
+<% @abouts.each do |about| %>
+  <h3><%= h about.title %></h3>
+  <p><%= h about.description %></p>
+  <br>
+  <% if @user and @user.role != 'normal' %>
+    <%= link_to 'Edit', edit_about_path(about) %>
+    <%= link_to 'Destroy', about, :confirm => 'Are you sure?', :method => :delete %>
+  <% end %>
+<% end %>
+<% if @user and @user.role != 'normal' %>
+  <br><br>
+  <%= link_to 'New about page info', new_about_path %>
+<% end %>

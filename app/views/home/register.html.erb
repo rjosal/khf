@@ -1,0 +1,27 @@
+<div id="login_container">
+  <%= image_tag("/images/REGISTER.png") %>
+  <% form_for :user, :url => { :action => "register" }, :html => {:id => 'login_form'} do |f| %>
+    <%= f.error_messages %>
+    <table>
+      <tr>
+        <td><%= f.label :name %></td>
+        <td><%= f.text_field :name, :maxlength => 50, :size => 20 %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :email %></td>
+        <td><%= f.text_field :email, :maxlength => 50, :size => 20 %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :password %></td>
+        <td><%= f.password_field :password, :size => 20 %></td>
+      </tr>
+      <tr>
+        <td><label for="confirm_password">Confirm password</label></td>
+        <td><input id="confirm_password" name="confirm_password" size="20" type="password"></td>
+      </tr>
+      <tr>
+        <td></td><td><%= f.submit 'Create' %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

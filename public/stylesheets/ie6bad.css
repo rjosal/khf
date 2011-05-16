@@ -1,0 +1,4 @@
+#column_left{width:405px; float:left; margin-left:15px;}
+#column_center{width:760px; float: left; margin:15px 15px 15px 0; padding:0 20px 0 20px; text-align: center;}
+#column_center_fade{clear: both; width:760px; height:40px; margin-left:15px;}
+#column_right{width:325px; float:left; text-align:center; margin-right:15px; padding-left:10px;}

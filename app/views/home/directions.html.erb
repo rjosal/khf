@@ -1,0 +1,42 @@
+<div id="map_container">
+  <!-- <script src="http://maps.google.com/maps?file=api&v=3&key=ABQIAAAAM-QsjjIdUUF06j-a8TZa8BSl4abJMTgMqeBSRFC7UjZw4-kobxS40C-C90AhvtMMoROFiicfXO9tdw" type="text/javascript"></script> -->
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  <div id="map_canvas"></div>
+  <% javascript_tag do %>
+    function load() {
+      var latlng = new google.maps.LatLng(47.633298, -122.664613);
+      var myOptions = {
+        zoom: 13,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map_canvas"),
+                                    myOptions);
+      var marker = new google.maps.Marker({
+        title: 'Kitsap Haunted Fairgrounds',
+        position: latlng,
+        map: map,
+        icon: 'images/khf-marker.png',
+        title:"Kitsap Haunted Fairgrounds"
+      });
+
+      var infowindow = new google.maps.InfoWindow({
+          content: 'Kitsap Haunted Fairgrounds 2010'
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+      });
+    }
+
+    window.onload = load;
+  <% end %>
+</div>
+<!-- manually position the fade divs on the map -->
+<div style="height:0px">
+  <%# TODO these fades cover up the tools.  move them in. %>
+  <div id="map_left_fade">&nbsp;</div>
+  <div id="map_right_fade">&nbsp;</div>
+  <div id="map_top_fade">&nbsp;</div>
+  <div id="map_bottom_fade">&nbsp;</div>
+</div>

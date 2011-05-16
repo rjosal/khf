@@ -1,0 +1,7 @@
+<div id="footer_user_info">
+  <% if @user %>
+    User: <%= @user.name %> &nbsp;&nbsp;
+    Role: <%= @user.role %>
+  <% end %>
+</div>
+<%= render :partial => 'layouts/khf_tabs' %>

@@ -1,0 +1,126 @@
+<div id="container" class="tabbertab<%= ' tabbertabdefault' if !params[:section] or params[:section] == 'headlines'%>">
+   <h2>HEADlines</h2>
+   <div id="main">
+      <div id="column_left">
+         <% if @current_headlines_grouped.empty? %>
+            <div id="headlines_666" class="headlines">
+            <br>
+            <% if @user and @user.role != 'normal' and @year.eql?(Date.today.year) %>
+              <%= link_to_function('Create New HEADline', :id => "headline_form_toggle") do |page|
+                   page.visual_effect :toggle_slide, 'new_headline', :duration => 0.5
+                   page << "$('headline_form_toggle').innerHTML = 
+                     ($('headline_form_toggle').innerHTML == 'Create New HEADline' ? 'Hide Create HEADline Form' : 'Create New HEADline');"
+                 end %>
+              <% form_for(Headline.new, :html => {:style => 'display:none;'}) do |f| %>
+                <%= f.error_messages %>
+                <table>
+                  <tr>
+                    <td><%= f.label :title %></td>
+                    <td><%= f.text_field :title, :maxlength => 15 %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.label :post %></td>
+                    <td><%= f.text_area :post, :rows => 6 %></td>
+                  </tr>
+                  <tr>
+                    <td></td><td><%= f.submit 'Create' %></td>
+                  </tr>
+                </table>
+              <% end %>
+            <% end %>
+            </div>
+         <% end %>
+         <% @current_headlines_grouped.each_with_index do |headlines, index| %>
+            <div id="headlines_<%= index %>" class="headlines"<% if index != 0 %> style="display:none;"<% end %>>
+            <% if @user and @user.role != 'normal' and index == 0 and @year.eql?(Date.today.year) %>
+              <br>
+              <%= link_to_function('Create New HEADline', :id => "headline_form_toggle") do |page|
+                   page.visual_effect :toggle_slide, 'new_headline', :duration => 0.5
+                   page << "$('headline_form_toggle').innerHTML = 
+                     ($('headline_form_toggle').innerHTML == 'Create New HEADline' ? 'Hide Create HEADline Form' : 'Create New HEADline');"
+                 end %>
+              <% form_for(Headline.new, :html => {:style => 'display:none;'}) do |f| %>
+                <%= f.error_messages %>
+                <table>
+                  <tr>
+                    <td><%= f.label :title %></td>
+                    <td><%= f.text_field :title, :maxlength => 15 %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.label :post %></td>
+                    <td><%= f.text_area :post, :rows => 6 %></td>
+                  </tr>
+                  <tr>
+                    <td></td><td><%= f.submit 'Create' %></td>
+                  </tr>
+                </table>
+              <% end %>
+            <% end %>
+            <% headlines.each do |headline| %>
+               <h6><span class="newstitle"><%= headline.title %></span>
+                   <span class="newsdate"><%= headline.created_at.strftime '%m/%d/%Y' %></span>&nbsp;</h6>
+               <p><%= headline.post %></p>
+               <%= (link_to 'Delete', headline, :confirm => 'Are you sure?',
+                   :method => :delete) + '<br>' if @user and @user.role != 'normal' %>
+               <%# TODO if no user logged in, and 0 comments, this link doesn't do anything %>
+               <%= link_to_function(pluralize(headline.comments.length,'comment')) do |page|
+                    page.visual_effect :toggle_blind, 'comments_'+headline.id.to_s, :duration => 0.5
+                  end %>
+               <div id="comments_<%= headline.id %>" style="display:none;">
+               <% headline.comments.each do |comment| %>
+                 <p class="comment"><strong><%= User.find(comment.created_by).name %> wrote on 
+                 <%= comment.created_at.strftime '%m/%d/%Y' %>:</strong>
+                 <%= comment.comment %>
+                 <%= link_to 'Delete', comment, :confirm => 'Are you sure?',
+                             :method => :delete if @user && (@user == User.find_by_id(comment.created_by) || @user.role == 'admin') %></p>
+               <% end %>
+               <% if @user %>
+                 <% form_for([headline, Comment.new]) do |f| %>
+                   <%= f.error_messages %>
+                   <%= f.text_area :comment, :rows => 3 %>
+                   <%= f.submit 'Comment' %>
+                 <% end %>
+               <% end %>
+               </div>
+            <% end %>
+            </div>
+         <% end %>
+         <% @current_headlines_grouped.each_index do |index| %>
+           <% next if @current_headlines_grouped.length == 1 %>
+           <%= '<br>Page: ' if index == 0 %>
+           <%= link_to_function(index+1) do |page|
+                page.select('.headlines').each{|h| h.hide}
+                page['headlines_'+index.to_s].visual_effect :appear
+              end %>
+         <% end %>
+       </div>
+       <div id="column_right">
+         <br>
+         <%= link_to_function(image_tag('/images/news_clipping.png'), "document.getElementById('main_tabber').tabber.tabShow(#{(@user and @user.role == 'admin') ? '4' : '3'});") %>
+         <br>
+         <%= link_to(image_tag('/images/KHFposter_small.jpg'), '/images/KHFposter_large.jpg') %>
+         <p style="text-align:justify;">Welcome to the Kitsap Haunted Fairgrounds Website! Kitsap Haunted Fairgrounds attracts victims from 
+         Bremerton, Silverdale, Belfair, Port Orchard, Poulsbo, Seattle and beyond for the annual scare put on in October. 
+         If you haven't made your way out here before, buckle up - you're in for a ride through your darkest nightmares.</p>
+         <br>
+         <%= link_to(image_tag("/images/social-networking/facebook.png", :alt => "Kitsap Haunted Fairgrounds on Facebook", :border => 0),
+             "http://www.facebook.com/pages/Bremerton-WA/Kitsap-Haunted-Fairgrounds-Fan-Page/310271587558", :target => "_blank") %>
+         <%= link_to(image_tag("/images/social-networking/myspace.png", :alt => "MySpace Haunt Page", :border => 0),
+             "http://www.myspace.com/kitsaphauntedfairgrounds", :target => "_blank") %>
+         <%= link_to(image_tag("/images/social-networking/youtube.png", :alt => "YouTube Haunt Videos", :border => 0),
+             "http://www.youtube.com/user/KitsapHaunt", :target => "_blank") %>
+         <h6><span class="newstitle">HEADlines by year</span>&nbsp;</h6>
+         <ul id="headline_years">
+            <% @all_headlines.map{|h| h.created_at.year}.uniq.each do |year| %>
+               <li><% if !year.eql?(@year) %><a href="/?year=<%= year %><%= '&section=headlines'if @user %>" title="HEADlines by year - <%= year %>"><% end %>
+                  <%= year %>
+               <% if !year.eql?(@year) %></a><% end %></li>
+            <% end %>
+         </ul>
+      </div><br><div style="clear:both"></div><br>
+      <div id="column_center_fade"><img src="/images/bottomAlphaFade.png"></div>
+   </div>
+   <div id="footer">
+      <h1><a href="http://www.kitsaphauntedfairgrounds.com" target="_parent" class="center">www.kitsaphauntedfairgrounds.com</a></h1>
+   </div>
+</div>

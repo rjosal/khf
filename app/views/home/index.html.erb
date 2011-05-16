@@ -1,0 +1,9 @@
+<div class="tabber" id="main_tabber">
+<% if @user and @user.role == 'admin' %>
+	<%= render :partial => 'admin' %>
+<% end %>
+	<%= render :partial => 'headlines' %>
+	<%= render :partial => 'hours' %>
+	<%= render :partial => 'admission' %>
+	<%= render :partial => 'story' %>
+</div>

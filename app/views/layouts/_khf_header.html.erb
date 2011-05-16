@@ -1,0 +1,38 @@
+<div align="center">
+  <div id="menu" align="center">
+    <p>Flash player not detected. Falling back to text.</p>
+    <br><br><br><br><br><br>
+    <a href="/" target="centerFrame">Home</a>
+    <a href="/contacts" target="centerFrame">Contact</a>
+    <a href="/abouts" target="centerFrame">About</a>
+    <a href="/videos" target="centerFrame">Media</a>
+    <a href="/directions" target="centerFrame">Directions</a>
+    <a href="/links" target="centerFrame">Links</a>
+  </div>
+  <div id="menu-bgd"></div>
+  <div id="scythe"></div>
+
+  <script type="text/javascript">
+     var so = new SWFObject("/images/HauntedMenu.swf", "HauntedMenu", "780", "200", "8", "#000000");
+     so.addParam("wmode", "transparent");
+     so.addParam("FlashVars", "homeUrl=/" +
+                              "&contactUrl=/contacts" +
+                              "&aboutUrl=/abouts" +
+                              "&mediaUrl=/videos" +
+                              "&directionsUrl=/directions" +
+                              "&linksUrl=/links");
+     so.write("menu");
+  </script>
+
+  <% unless @no_loginout %>
+    <div id="loginout">
+      <% if @user %>
+      <%= link_to image_tag("/images/LOGOUT.png"), logout_path %>
+      <% else %>
+      <%= link_to image_tag("/images/LOGIN.png"), login_path, :id => 'login' %>
+      <%= link_to image_tag("/images/REGISTER.png"), register_path, :id => 'register' %>
+      <% end %>
+      <br class="kill_float">
+    </div>
+  <% end %>
+</div>

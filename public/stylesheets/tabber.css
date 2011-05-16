@@ -1,0 +1,59 @@
+.tabberlive .tabbertabhide {display:none;}
+
+/*--------------------------------------------------
+  .tabber = before the tabber interface is set up
+  .tabberlive = after the tabber interface is set up
+  --------------------------------------------------*/
+.tabber {
+}
+.tabberlive {
+}
+
+ul.tabbernav
+{
+	list-style: none;
+	text-align: center;
+	padding: 7px 0px;
+	margin: 0;
+	font-size: 14px;
+   background: url("/images/navbarbgd.png") no-repeat center bottom;
+   border-bottom: solid 1px #555;
+}
+
+ul.tabbernav li
+{
+	display: inline;
+	margin: 4px;
+}
+
+ul.tabbernav li a
+{
+	padding: 6px 20px;
+	background: #aaa;
+	font-weight: bold;
+	border: solid 1px #555;
+}
+
+/*ul.tabbernav li a:link { color: #448; }
+ul.tabbernav li a:visited { color: #667; }*/
+
+ul.tabbernav li a:hover
+{
+	background: #333;
+	text-decoration: none;
+}
+
+ul.tabbernav li.tabberactive a
+{
+	background: #eeeeef;
+	border-bottom: solid 1px #eeeeef;
+}
+
+ul.tabbernav li.tabberactive a:hover
+{
+	text-decoration: none;
+}
+
+.tabberlive .tabbertab {/*tab content section's style*/}
+
+.tabberlive .tabbertab h2 {display:none;}
