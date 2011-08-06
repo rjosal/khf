@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# init wrapper for ar_sendmail, which checks an emails
+# table in the db and sends mail asynchronously
+
+KHF_BASE=/www/kitsaphauntedfairgrounds
+AR_SENDMAIL_DIR=/www/khf-gems/bin
+PIDFILE=$KHF_BASE/run/ar_sendmail.pid
+AR_SENDMAIL_OPTS="--chdir $KHF_BASE \
+                  --daemonize \
+                  --pid-file $PIDFILE \
+                  --batch-size 20 \
+                  --delay 10 \
+                  --max-age 604800 \
+                  --table-name Email \
+                  --no-verbose"
+
+start() {
+    echo "Starting ar_sendmail daemon:"
+    if [ -f $PIDFILE ]; then
+        PID=`cat $PIDFILE`
+        echo "ar_sendmail already running. PID: $PID"
+        exit 2;
+    else
+        $AR_SENDMAIL_DIR/ar_sendmail $AR_SENDMAIL_OPTS
+        RETVAL=$?
+        return $RETVAL
+    fi
+}
+
+stop() {
+    echo "Stopping ar_sendmail daemon:"
+    kill `cat $PIDFILE`
+    rm $PIDFILE &> /dev/null # ar_mailer will do this, but just to be sure
+    return 0
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status ar_sendmail
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage:  {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+exit $?

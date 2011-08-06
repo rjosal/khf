@@ -1,3 +1,4 @@
+ENV['GEM_PATH'] = '/www/khf-gems'
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
@@ -23,6 +24,14 @@ Rails::Initializer.run do |config|
 
   config.time_zone = 'UTC'
   
+  #=========== ActionMailer settings.  More in environments/*.rb ============
+  # ar_mailer gem doesn't work with config.gem, so use require
+  # The gem makes it so emails are sent asynchronously by ar_sendmail daemon
+  # from the email "queue" in the emails db table
+  require 'action_mailer/ar_mailer'
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_content_type = 'text/html'
+
   config.after_initialize do
     # validations common in several models like validates_as_email
     require 'khf/common_validations'
@@ -44,18 +53,3 @@ module ActionView::Helpers::TagHelper
   end
   alias_method_chain :tag, :html
 end
-
-# email settings
-ActionMailer::Base.perform_deliveries = true
-ActionMailer::Base.raise_delivery_errors = true # change to true in dev
-ActionMailer::Base.default_content_type = 'text/html'
-ActionMailer::Base.delivery_method = :smtp
-ActionMailer::Base.smtp_settings = {
-   :address => "smtp.gmail.com",
-   :port => 587,
-   :enable_starttls_auto => true,
-   :domain => "gmail.com",
-   :authentication => :login,
-   :user_name => "666khf",
-   :password => "kitsaphaunted",
-}

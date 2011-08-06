@@ -6,27 +6,7 @@
             <div id="headlines_666" class="headlines">
             <br>
             <% if @user and @user.role != 'normal' and @year.eql?(Date.today.year) %>
-              <%= link_to_function('Create New HEADline', :id => "headline_form_toggle") do |page|
-                   page.visual_effect :toggle_slide, 'new_headline', :duration => 0.5
-                   page << "$('headline_form_toggle').innerHTML = 
-                     ($('headline_form_toggle').innerHTML == 'Create New HEADline' ? 'Hide Create HEADline Form' : 'Create New HEADline');"
-                 end %>
-              <% form_for(Headline.new, :html => {:style => 'display:none;'}) do |f| %>
-                <%= f.error_messages %>
-                <table>
-                  <tr>
-                    <td><%= f.label :title %></td>
-                    <td><%= f.text_field :title, :maxlength => 15 %></td>
-                  </tr>
-                  <tr>
-                    <td><%= f.label :post %></td>
-                    <td><%= f.text_area :post, :rows => 6 %></td>
-                  </tr>
-                  <tr>
-                    <td></td><td><%= f.submit 'Create' %></td>
-                  </tr>
-                </table>
-              <% end %>
+              <%= render :partial => 'create_headline_form' %>
             <% end %>
             </div>
          <% end %>
@@ -34,27 +14,7 @@
             <div id="headlines_<%= index %>" class="headlines"<% if index != 0 %> style="display:none;"<% end %>>
             <% if @user and @user.role != 'normal' and index == 0 and @year.eql?(Date.today.year) %>
               <br>
-              <%= link_to_function('Create New HEADline', :id => "headline_form_toggle") do |page|
-                   page.visual_effect :toggle_slide, 'new_headline', :duration => 0.5
-                   page << "$('headline_form_toggle').innerHTML = 
-                     ($('headline_form_toggle').innerHTML == 'Create New HEADline' ? 'Hide Create HEADline Form' : 'Create New HEADline');"
-                 end %>
-              <% form_for(Headline.new, :html => {:style => 'display:none;'}) do |f| %>
-                <%= f.error_messages %>
-                <table>
-                  <tr>
-                    <td><%= f.label :title %></td>
-                    <td><%= f.text_field :title, :maxlength => 15 %></td>
-                  </tr>
-                  <tr>
-                    <td><%= f.label :post %></td>
-                    <td><%= f.text_area :post, :rows => 6 %></td>
-                  </tr>
-                  <tr>
-                    <td></td><td><%= f.submit 'Create' %></td>
-                  </tr>
-                </table>
-              <% end %>
+              <%= render :partial => 'create_headline_form' %>
             <% end %>
             <% headlines.each do |headline| %>
                <h6><span class="newstitle"><%= headline.title %></span>

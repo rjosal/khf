@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101006161239) do
+ActiveRecord::Schema.define(:version => 20110806215619) do
 
   create_table "abouts", :force => true do |t|
     t.string   "status",                       :default => "active"
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(:version => 20101006161239) do
   end
 
   create_table "comments", :force => true do |t|
-    t.string   "status",      :default => "active"
-    t.integer  "headline_id"
+    t.string   "status"
+    t.integer  "headline_id", :null => false
     t.string   "comment"
     t.integer  "created_by"
     t.integer  "updated_by"
@@ -41,15 +41,23 @@ ActiveRecord::Schema.define(:version => 20101006161239) do
   end
 
   create_table "contacts", :force => true do |t|
-    t.string   "status",                       :default => "active"
+    t.string   "status",      :default => "active"
     t.string   "name"
     t.string   "email"
     t.string   "purpose"
-    t.string   "description", :limit => 40000
-    t.integer  "created_by"
-    t.integer  "updated_by"
+    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+  end
+
+  create_table "emails", :force => true do |t|
+    t.string   "from"
+    t.string   "to"
+    t.integer  "last_send_attempt", :default => 0
+    t.text     "mail"
+    t.datetime "created_on"
   end
 
   create_table "events", :force => true do |t|
@@ -63,13 +71,13 @@ ActiveRecord::Schema.define(:version => 20101006161239) do
   end
 
   create_table "headlines", :force => true do |t|
-    t.string   "status",                      :default => "active"
+    t.string   "status"
     t.string   "title"
     t.string   "post",       :limit => 40000
-    t.integer  "created_by"
-    t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "created_by"
+    t.integer  "updated_by"
   end
 
   create_table "links", :force => true do |t|
@@ -85,15 +93,15 @@ ActiveRecord::Schema.define(:version => 20101006161239) do
   end
 
   create_table "open_dates", :force => true do |t|
-    t.string   "status",             :default => "active"
+    t.string   "status"
     t.date     "date_open"
     t.time     "start_time"
     t.time     "lights_on_end_time"
     t.time     "end_time"
-    t.integer  "created_by"
-    t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "created_by"
+    t.integer  "updated_by"
     t.string   "purchase_link"
   end
 
@@ -103,33 +111,34 @@ ActiveRecord::Schema.define(:version => 20101006161239) do
     t.string   "caption"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "category_id"
     t.integer  "created_by"
     t.integer  "updated_by"
+    t.integer  "category_id"
   end
 
+# Could not dump table "themes" because of following StandardError
+#   Unknown type 'year(4)' for column 'year_active'
+
   create_table "tickets", :force => true do |t|
-    t.string   "status",                                                     :default => "active"
+    t.string   "status"
     t.string   "name"
-    t.integer  "price",         :limit => 10, :precision => 10, :scale => 0
+    t.decimal  "price",         :precision => 4, :scale => 2
     t.string   "description"
-    t.integer  "created_by"
-    t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "created_by"
+    t.integer  "updated_by"
     t.string   "purchase_link"
   end
 
   create_table "users", :force => true do |t|
-    t.string   "status",          :default => "active"
     t.string   "name"
-    t.string   "email"
-    t.string   "role"
-    t.string   "hashed_password"
+    t.string   "email",                               :null => false
+    t.string   "role",                                :null => false
+    t.string   "status",                              :null => false
+    t.string   "hashed_password",                     :null => false
     t.string   "salt"
     t.datetime "last_login"
-    t.integer  "created_by"
-    t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email_status",    :default => "good"

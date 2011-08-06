@@ -12,12 +12,14 @@ class HeadlinesController < ApplicationController
       if headline.save
         flash[:notice] = 'Headline was successfully created.'
         format.html { redirect_to '/?section=headlines' }
-        flash[:notice] += "<br> Sent #{User.emailable.size} notification emails to registered members."
 
         # send email to any users that should get it
-        User.emailable.each do |user|
-          Mailer.deliver_new_headline_notification( user, headline )
-          Rails.logger.info "Sent new headline email to #{user.email}"
+        unless params[:email_users].nil?
+          User.emailable.each do |user|
+            Mailer.deliver_new_headline_notification( user, headline )
+            Rails.logger.info "Sent new headline email to #{user.email}"
+          end
+          flash[:notice] += "<br> Enqueued #{User.emailable.size} notification emails to registered members."
         end
       else
         flash[:warning] = headline.errors.full_messages.collect{|e| e+'<br>'}

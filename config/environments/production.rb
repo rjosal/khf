@@ -26,3 +26,17 @@ config.action_view.cache_template_loading            = true
 
 # Enable threaded mode
 # config.threadsafe!
+
+#======== ActionMailer =========
+# Don't care if the mailer can't send
+config.action_mailer.raise_delivery_errors = true
+config.action_mailer.delivery_method = :activerecord
+config.action_mailer.smtp_settings = {
+   :address => "smtp.gmail.com",
+   :port => 587,
+   :enable_starttls_auto => true,
+   :domain => "gmail.com",
+   :authentication => :login,
+   :user_name => "666khf",
+   :password => "kitsaphaunted",
+}
