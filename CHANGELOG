@@ -1,4 +1,6 @@
 
+*) asynchronous emailing through ar_mailer
+*) add option not to email with new headline
 *) rel nofollow on buy links
 *) move buy link for tickets into h4
 *) add purchase link to open dates
