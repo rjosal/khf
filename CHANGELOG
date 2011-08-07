@@ -1,4 +1,5 @@
 
+*) ar_sendmail daemon: bump up batch size and delay time
 *) news clipping image moved to story page sans NEW badge
 *) smtp options :tls => true (ARMailer req)
 *) asynchronous emailing through ar_mailer

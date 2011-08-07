@@ -9,11 +9,11 @@ PIDFILE=$KHF_BASE/run/ar_sendmail.pid
 AR_SENDMAIL_OPTS="--chdir $KHF_BASE \
                   --daemonize \
                   --pid-file $PIDFILE \
-                  --batch-size 20 \
-                  --delay 10 \
+                  --batch-size 50 \
+                  --delay 120 \
                   --max-age 604800 \
                   --table-name Email \
-                  --no-verbose"
+                  --verbose"
 
 start() {
     echo "Starting ar_sendmail daemon:"
