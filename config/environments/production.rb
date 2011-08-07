@@ -39,4 +39,5 @@ config.action_mailer.smtp_settings = {
    :authentication => :login,
    :user_name => "666khf",
    :password => "kitsaphaunted",
+   :tls => true # ARMailer hacks this in a requires it to be true for tls.  LAME
 }

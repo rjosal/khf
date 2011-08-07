@@ -1,4 +1,5 @@
 
+*) smtp options :tls => true (ARMailer req)
 *) asynchronous emailing through ar_mailer
 *) add option not to email with new headline
 *) rel nofollow on buy links
