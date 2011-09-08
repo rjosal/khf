@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     @current_headlines_grouped = []
     current_headlines.each_slice(headlines_per_page){|slice| @current_headlines_grouped << slice}
     
-    @open_dates = OpenDate.find(:all, :order => "date_open asc", :conditions => {:status => 'active'})
+    @open_dates = OpenDate.find(:all, :order => "date_open asc", :conditions => "status = 'active' AND EXTRACT(YEAR FROM date_open) = #{@year}")
     @tickets = Ticket.find(:all, :order => "price asc", :conditions => {:status => 'active'})
 
     # Log an event
