@@ -44,10 +44,10 @@
             <% if @user and @user.role != 'normal' %> 
               <br>
 			        <%= link_to 'Delete', ticket, :confirm => 'Are you sure?', :method => :delete %>
-              <%= link_to_function('Edit', :id => "ticket_edit_form_toggle") do |page|
+              <%= link_to_function('Edit', :id => "ticket_edit_form_toggle#{ticket.id}") do |page|
                      page.visual_effect :toggle_slide, "edit_ticket_#{ticket.id}", :duration => 0.5
-                     page << "$('ticket_edit_form_toggle').innerHTML = 
-                        ($('ticket_edit_form_toggle').innerHTML == 'Edit' ? 'Hide Edit Form' : 'Edit');"
+                     page << "$('ticket_edit_form_toggle#{ticket.id}').innerHTML = 
+                        ($('ticket_edit_form_toggle#{ticket.id}').innerHTML == 'Edit' ? 'Hide Edit Form' : 'Edit');"
                  end %>
               <% form_for(ticket, :html => {:style => 'display:none;'}) do |f| %>
                 <%= f.error_messages %>

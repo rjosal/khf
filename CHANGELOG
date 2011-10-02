@@ -1,4 +1,6 @@
 
+*) fix ticket edit form toggle bug (text didn't change)
+*) add new reunion story 2011
 *) open dates only show for whatever year headlines are showing
 *) ar_sendmail daemon: bump up batch size and delay time
 *) news clipping image moved to story page sans NEW badge
