@@ -15,6 +15,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to '/?section=headlines&year='+comment.headline.created_at.year.to_s }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
+        flash[:warning] = comment.errors.full_messages.collect{|e| e+'<br>'}
         format.html { redirect_to '/?section=headlines' }
         format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
       end
@@ -32,6 +33,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to '/?section=headlines' }
         format.xml  { head :ok }
       else
+        flash[:warning] = comment.errors.full_messages.collect{|e| e+'<br>'}
         format.html { redirect_to '/?section=headlines' }
         format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
       end
