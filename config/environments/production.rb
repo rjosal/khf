@@ -38,6 +38,6 @@ config.action_mailer.smtp_settings = {
    :domain => "gmail.com",
    :authentication => :login,
    :user_name => "666khf",
-   :password => "kitsaphaunted",
+   :password => "",
    :tls => true # ARMailer hacks this in a requires it to be true for tls.  LAME
 }
